@@ -2,20 +2,17 @@ import { CallHandler, ExecutionContext, Inject, Injectable, NestInterceptor } fr
 
 @Injectable()
 export class Interceptor implements NestInterceptor {
-  private magicNumber: number;
+  private internalMagicNumber: number;
 
   constructor(
-    @Inject(Symbol.for('Test'))
-    private readonly testValue: number,
-
-    @Inject(Symbol.for('Config'))
-    private readonly config: any,
+    @Inject(Symbol.for('MagicNumber'))
+    private readonly magicNumber: number,
   ) {
-    this.magicNumber = Math.random();
+    this.internalMagicNumber = Math.random();
   }
 
   intercept(context: ExecutionContext, next: CallHandler) {
-    console.log('Interceptor: ', this.testValue, this.magicNumber, this.config);
+    console.log('Interceptor: ', this.magicNumber, this.internalMagicNumber);
     return next.handle();
   }
 }

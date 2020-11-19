@@ -3,17 +3,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { Interceptor } from './interceptor';
-import { Logger } from './logger';
-
-import { CoreModule } from './core.module';
-import { MyResolver } from './resolve'
+import { MyResolver } from './resolver'
 import { join } from 'path';
 
 @Module({
   imports: [
-    CoreModule,
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       definitions: {
@@ -26,13 +21,13 @@ import { join } from 'path';
     AppService,
     MyResolver,
     {
-      provide: APP_INTERCEPTOR,
-      useClass: Interceptor,
-      scope: Scope.REQUEST
+      provide: Symbol.for('MagicNumber'),
+      useFactory: () => Math.random(),
+      scope: Scope.REQUEST,
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: Logger,
+      useClass: Interceptor,
       scope: Scope.REQUEST
     },
   ],
