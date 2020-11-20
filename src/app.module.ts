@@ -28,7 +28,6 @@ import { join } from 'path';
     {
       provide: APP_INTERCEPTOR,
       useClass: Interceptor,
-      scope: Scope.REQUEST
     },
   ],
 })
